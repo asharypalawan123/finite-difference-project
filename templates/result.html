@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Result</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="result-box">
+
+        <h1>Calculation Result</h1>
+
+        {% if error %}
+
+            <p>{{ error }}</p>
+
+        {% else %}
+
+            <p><strong>Function:</strong> {{ function }}</p>
+
+            <p><strong>x:</strong> {{ x }}</p>
+
+            <p><strong>h:</strong> {{ h }}</p>
+
+            <p><strong>Method:</strong> {{ method }}</p>
+
+            <h2>Formula Used</h2>
+
+            <p>{{ formula }}</p>
+
+            <h2>Step-by-Step Solution</h2>
+
+            <ul>
+
+                {% for step in steps %}
+
+                    <li>{{ step }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+            <h2>Approximate Derivative</h2>
+
+            <p class="answer">{{ derivative }}</p>
+
+        {% endif %}
+
+        <a href="/">Go Back</a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
