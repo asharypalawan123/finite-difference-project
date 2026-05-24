@@ -4,11 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Result — Finite Difference Calculator</title>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
+
+<!-- ── NAV ──────────────────────────────────────────── -->
+<nav class="nav">
+    <div class="nav-inner">
+        <a class="nav-logo" href="/"><span>∂</span> FinDiff</a>
+        <ul class="nav-links">
+            <li><a href="/theory"><span class="nav-num">01</span> Theory</a></li>
+            <li><a href="/examples"><span class="nav-num">02</span> Examples</a></li>
+            <li><a href="/calculator"><span class="nav-num">03</span> Calculator</a></li>
+        </ul>
+    </div>
+</nav>
+
 <div class="container result-page">
 
     <div class="result-card">
@@ -19,7 +30,7 @@
             {% if not error %}
                 <span class="result-method-badge">{{ method }} Difference</span>
             {% else %}
-                <span class="result-method-badge" style="color: var(--red); border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.07);">Error</span>
+                <span class="result-method-badge" style="color:var(--red); border-color:rgba(248,113,113,0.4); background:rgba(248,113,113,0.07);">Error</span>
             {% endif %}
         </div>
 
@@ -28,7 +39,6 @@
 
             {% if error %}
 
-            <!-- Error State -->
             <div class="error-result">
                 <span class="err-icon">⚠</span>
                 <div class="err-text">{{ error }}</div>
@@ -58,7 +68,7 @@
                 {{ formula }}
             </div>
 
-            <!-- Step-by-Step Solution -->
+            <!-- Step-by-Step -->
             <div class="steps-section">
                 <h2>Step-by-Step Solution</h2>
                 <ul class="steps-list">
@@ -74,7 +84,7 @@
             <!-- Final Answer -->
             <div class="answer-block">
                 <div>
-                    <div class="answer-label">Approximate Derivative  f'({{ x }})</div>
+                    <div class="answer-label">Approximate Derivative &nbsp; f'({{ x }})</div>
                     <div class="answer-value">{{ derivative }}</div>
                 </div>
                 <div class="answer-icon">∂</div>
@@ -82,7 +92,11 @@
 
             {% endif %}
 
-            <a href="/" class="back-link">Back to Calculator</a>
+            <!-- Actions -->
+            <div style="display:flex; gap:12px; margin-top:24px; flex-wrap:wrap;">
+                <a href="/calculator" class="back-link">← Calculate Again</a>
+                <a href="/theory" class="back-link" style="margin-left:auto;">Theory →</a>
+            </div>
 
         </div>
     </div>

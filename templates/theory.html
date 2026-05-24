@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theory — Finite Difference Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']] } };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────────── -->
+<nav class="nav">
+    <div class="nav-inner">
+        <a class="nav-logo" href="/"><span>∂</span> FinDiff</a>
+        <ul class="nav-links">
+            <li><a href="/theory" class="active"><span class="nav-num">01</span> Theory</a></li>
+            <li><a href="/examples"><span class="nav-num">02</span> Examples</a></li>
+            <li><a href="/calculator"><span class="nav-num">03</span> Calculator</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- ── PAGE HERO ──────────────────────────────────── -->
+    <div class="page-hero">
+        <span class="page-tag">01 / Theory & Overview</span>
+        <h1>Finite <em>Difference</em> Methods</h1>
+        <p>
+            Numerical techniques that approximate derivatives using discrete
+            function values — fundamental tools in scientific computing,
+            engineering, and applied mathematics.
+        </p>
+    </div>
+
+    <!-- ── WHAT ARE THEY ──────────────────────────────── -->
+    <div class="section-label"><span>Background</span></div>
+
+    <div class="intro-card">
+        <p>
+            <strong>Finite Difference Methods</strong> replace the limiting process
+            of calculus with a finite step size \(h\), yielding computable approximations
+            that converge to the true derivative as \(h \to 0\). They are widely used
+            when the exact derivative is difficult, costly, or impossible to obtain analytically.
+        </p>
+        <p>
+            All three methods stem from the Taylor series expansion of \(f(x)\).
+            By choosing which neighboring points to include, we trade simplicity
+            for accuracy.
+        </p>
+        <div class="uses-grid">
+            <div class="use-item">Scientific Computing</div>
+            <div class="use-item">Engineering Simulations</div>
+            <div class="use-item">ML Optimization</div>
+            <div class="use-item">Physics Modeling</div>
+            <div class="use-item">Numerical Analysis</div>
+            <div class="use-item">Computer Graphics</div>
+        </div>
+    </div>
+
+    <!-- ── THREE METHODS ──────────────────────────────── -->
+    <div class="section-label"><span>Methods</span></div>
+
+    <div class="methods-grid">
+
+        <div class="method-card forward">
+            <div class="method-symbol">f&thinsp;'₊</div>
+            <h2>Forward Difference</h2>
+            <p>
+                Estimates the derivative using the current point and the
+                <em>next</em> nearby point. Derived directly from the limit
+                definition of the derivative.
+            </p>
+            <div class="formula-block">
+                \[ f'(x) \approx \frac{f(x+h) - f(x)}{h} \]
+            </div>
+            <p>
+                Simple and efficient. Ideal for fast approximations where
+                high accuracy is not critical. Only looks forward in the domain.
+            </p>
+            <span class="accuracy-badge">O(h) — first order</span>
+        </div>
+
+        <div class="method-card backward">
+            <div class="method-symbol">f&thinsp;'₋</div>
+            <h2>Backward Difference</h2>
+            <p>
+                Uses the current point and the <em>previous</em> nearby point.
+                Useful in real-time or sequential systems where future data
+                is unavailable.
+            </p>
+            <div class="formula-block">
+                \[ f'(x) \approx \frac{f(x) - f(x-h)}{h} \]
+            </div>
+            <p>
+                Same accuracy order as forward difference. Sensitivity to
+                step size applies equally to both methods.
+            </p>
+            <span class="accuracy-badge">O(h) — first order</span>
+        </div>
+
+        <div class="method-card central">
+            <div class="method-symbol">f&thinsp;'₀</div>
+            <h2>Central Difference</h2>
+            <p>
+                Uses points on <em>both sides</em> of the target. The symmetric
+                structure cancels out odd-order error terms, yielding smaller
+                truncation error.
+            </p>
+            <div class="formula-block">
+                \[ f'(x) \approx \frac{f(x+h) - f(x-h)}{2h} \]
+            </div>
+            <p>
+                Preferred for numerical computations requiring precision.
+                Halving \(h\) reduces error by a factor of 4.
+            </p>
+            <span class="accuracy-badge">O(h²) — second order</span>
+        </div>
+
+    </div>
+
+    <!-- ── STEP SIZE + ERROR ───────────────────────────── -->
+    <div class="section-label"><span>Step Size &amp; Error</span></div>
+
+    <div class="detail-grid">
+
+        <div class="detail-card">
+            <h2><span class="icon">h</span> Choosing Step Size</h2>
+            <p>
+                The step size \(h\) controls the trade-off between truncation
+                error and floating-point rounding error. Neither extreme is ideal.
+            </p>
+            <ul class="warning-list">
+                <li class="bad">
+                    <span class="tag">LARGE h</span>
+                    Poor approximation — truncation error dominates.
+                </li>
+                <li class="bad">
+                    <span class="tag">TINY h</span>
+                    Floating-point rounding errors accumulate dangerously.
+                </li>
+                <li class="ok">
+                    <span class="tag">MODERATE h</span>
+                    Best numerical stability — balances both error sources.
+                </li>
+            </ul>
+        </div>
+
+        <div class="detail-card">
+            <h2><span class="icon">ε</span> Truncation Error Orders</h2>
+            <p>
+                The error order describes how rapidly the approximation improves
+                as \(h\) shrinks. Higher order = faster convergence.
+            </p>
+            <div class="error-compare">
+                <div class="error-row">
+                    <span class="method-name">Forward Difference</span>
+                    <span class="order first">\(O(h)\)</span>
+                </div>
+                <div class="error-row">
+                    <span class="method-name">Backward Difference</span>
+                    <span class="order first">\(O(h)\)</span>
+                </div>
+                <div class="error-row">
+                    <span class="method-name">Central Difference</span>
+                    <span class="order second">\(O(h^2)\)</span>
+                </div>
+            </div>
+            <p style="margin-top:14px; font-size:12px;">
+                Central difference converges <strong>quadratically</strong>.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- ── PROS & CONS ────────────────────────────────── -->
+    <div class="section-label"><span>Advantages &amp; Limitations</span></div>
+
+    <div class="pros-cons-grid">
+        <div class="pros-card">
+            <h3>Advantages</h3>
+            <ul class="check-list">
+                <li>Simple and easy to implement</li>
+                <li>Useful when analytical derivatives are unavailable</li>
+                <li>Applicable to discrete experimental data</li>
+                <li>Computationally very efficient</li>
+                <li>Widely used in engineering and simulations</li>
+            </ul>
+        </div>
+        <div class="cons-card">
+            <h3>Limitations</h3>
+            <ul class="check-list">
+                <li>Produces approximation (truncation) errors</li>
+                <li>Highly sensitive to choice of step size</li>
+                <li>Very small \(h\) introduces rounding errors</li>
+                <li>Less accurate than symbolic differentiation</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ── NEXT ───────────────────────────────────────── -->
+    <div class="next-page">
+        <a href="/examples">Worked Examples</a>
+    </div>
+
+</div>
+
+<footer>
+    <p>Finite Differences Calculator &nbsp;·&nbsp; Numerical Methods &nbsp;·&nbsp; <span>∂f/∂x</span></p>
+</footer>
+
+</body>
+</html>

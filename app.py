@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import math
 
 app = Flask(__name__)
@@ -31,14 +31,28 @@ def evaluate_function(expression, x):
     )
 
 
-# Home Route
+# ── ROUTES ───────────────────────────────────────────
+
 @app.route('/')
 def home():
+    return redirect(url_for('theory'))
 
-    return render_template('index.html')
+
+@app.route('/theory')
+def theory():
+    return render_template('theory.html')
 
 
-# Calculation Route
+@app.route('/examples')
+def examples():
+    return render_template('examples.html')
+
+
+@app.route('/calculator')
+def calculator():
+    return render_template('calculator.html')
+
+
 @app.route('/calculate', methods=['POST'])
 def calculate():
 
@@ -52,7 +66,6 @@ def calculate():
 
         # Prevent division by zero
         if h == 0:
-
             return render_template(
                 'result.html',
                 error='Step size h cannot be zero.'
@@ -62,34 +75,32 @@ def calculate():
         if method == 'forward':
 
             fxh = evaluate_function(function, x + h)
-            fx = evaluate_function(function, x)
+            fx  = evaluate_function(function, x)
 
             derivative = round((fxh - fx) / h, 6)
-
-            formula = "f'(x) = [f(x+h) - f(x)] / h"
+            formula    = "f'(x) = [f(x+h) - f(x)] / h"
 
             steps = [
-                f"f(x+h) = {round(fxh, 6)}",
-                f"f(x) = {round(fx, 6)}",
-                f"Derivative = ({round(fxh, 6)} - {round(fx, 6)}) / {h}",
-                f"Derivative = {derivative}"
+                f"f(x+h) = f({x + h}) = {round(fxh, 6)}",
+                f"f(x) = f({x}) = {round(fx, 6)}",
+                f"Numerator = {round(fxh, 6)} - {round(fx, 6)} = {round(fxh - fx, 6)}",
+                f"Derivative = {round(fxh - fx, 6)} / {h} = {derivative}",
             ]
 
         # BACKWARD DIFFERENCE
         elif method == 'backward':
 
-            fx = evaluate_function(function, x)
+            fx  = evaluate_function(function, x)
             fxh = evaluate_function(function, x - h)
 
             derivative = round((fx - fxh) / h, 6)
-
-            formula = "f'(x) = [f(x) - f(x-h)] / h"
+            formula    = "f'(x) = [f(x) - f(x-h)] / h"
 
             steps = [
-                f"f(x) = {round(fx, 6)}",
-                f"f(x-h) = {round(fxh, 6)}",
-                f"Derivative = ({round(fx, 6)} - {round(fxh, 6)}) / {h}",
-                f"Derivative = {derivative}"
+                f"f(x) = f({x}) = {round(fx, 6)}",
+                f"f(x-h) = f({x - h}) = {round(fxh, 6)}",
+                f"Numerator = {round(fx, 6)} - {round(fxh, 6)} = {round(fx - fxh, 6)}",
+                f"Derivative = {round(fx - fxh, 6)} / {h} = {derivative}",
             ]
 
         # CENTRAL DIFFERENCE
@@ -99,24 +110,22 @@ def calculate():
             fx2 = evaluate_function(function, x - h)
 
             derivative = round((fx1 - fx2) / (2 * h), 6)
-
-            formula = "f'(x) = [f(x+h) - f(x-h)] / 2h"
+            formula    = "f'(x) = [f(x+h) - f(x-h)] / 2h"
 
             steps = [
-                f"f(x+h) = {round(fx1, 6)}",
-                f"f(x-h) = {round(fx2, 6)}",
-                f"Derivative = ({round(fx1, 6)} - {round(fx2, 6)}) / (2 × {h})",
-                f"Derivative = {derivative}"
+                f"f(x+h) = f({x + h}) = {round(fx1, 6)}",
+                f"f(x-h) = f({x - h}) = {round(fx2, 6)}",
+                f"Numerator = {round(fx1, 6)} - {round(fx2, 6)} = {round(fx1 - fx2, 6)}",
+                f"Denominator = 2 × {h} = {2 * h}",
+                f"Derivative = {round(fx1 - fx2, 6)} / {2 * h} = {derivative}",
             ]
 
         else:
-
             return render_template(
                 'result.html',
                 error='Invalid method selected.'
             )
 
-        # Send result to HTML
         return render_template(
             'result.html',
             function=function,
@@ -129,14 +138,13 @@ def calculate():
         )
 
     except Exception as e:
-
         return render_template(
             'result.html',
             error=f'Error: {str(e)}'
         )
 
 
-# Run Flask App
-if __name__ == '__main__':
+# ── RUN ───────────────────────────────────────────────
 
+if __name__ == '__main__':
     app.run(debug=True)

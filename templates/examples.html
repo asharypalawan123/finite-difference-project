@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examples — Finite Difference Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']] } };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────────── -->
+<nav class="nav">
+    <div class="nav-inner">
+        <a class="nav-logo" href="/"><span>∂</span> FinDiff</a>
+        <ul class="nav-links">
+            <li><a href="/theory"><span class="nav-num">01</span> Theory</a></li>
+            <li><a href="/examples" class="active"><span class="nav-num">02</span> Examples</a></li>
+            <li><a href="/calculator"><span class="nav-num">03</span> Calculator</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- ── PAGE HERO ──────────────────────────────────── -->
+    <div class="page-hero">
+        <span class="page-tag">02 / Worked Examples</span>
+        <h1><em>Step-by-Step</em> Solutions</h1>
+        <p>
+            Three fully worked examples — one for each method — showing
+            exactly how the approximation is computed from inputs to derivative.
+        </p>
+    </div>
+
+    <!-- ── METHOD COMPARISON TABLE ────────────────────── -->
+    <div class="section-label"><span>At a Glance</span></div>
+
+    <div class="compare-table-wrap">
+        <table class="compare-table">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Formula</th>
+                    <th>Uses Points</th>
+                    <th>Accuracy</th>
+                    <th>Best For</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Forward</td>
+                    <td>[f(x+h) − f(x)] / h</td>
+                    <td>x, x+h</td>
+                    <td><span class="order-pill first">O(h)</span></td>
+                    <td>Fast / simple cases</td>
+                </tr>
+                <tr>
+                    <td>Backward</td>
+                    <td>[f(x) − f(x−h)] / h</td>
+                    <td>x−h, x</td>
+                    <td><span class="order-pill first">O(h)</span></td>
+                    <td>Real-time / sequential data</td>
+                </tr>
+                <tr>
+                    <td>Central</td>
+                    <td>[f(x+h) − f(x−h)] / 2h</td>
+                    <td>x−h, x+h</td>
+                    <td><span class="order-pill second">O(h²)</span></td>
+                    <td>Precision computations</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ── EXAMPLE 1: FORWARD ──────────────────────────── -->
+    <div class="section-label"><span>Example 01</span> Forward Difference</div>
+
+    <div class="example-full">
+        <div class="example-full-header">
+            <h2>f(x) = x² &nbsp;at&nbsp; x = 2,  h = 0.1</h2>
+            <span class="method-pill">Forward</span>
+        </div>
+        <div class="example-full-body">
+            <div class="example-given">
+                <h3>Given</h3>
+                <table class="given-table">
+                    <tr><td>f(x)</td><td>x²</td></tr>
+                    <tr><td>x</td><td>2</td></tr>
+                    <tr><td>h</td><td>0.1</td></tr>
+                    <tr><td>Formula</td><td>[f(x+h) − f(x)] / h</td></tr>
+                </table>
+                <div class="formula-block" style="margin-top:14px; font-size:11px;">
+                    \[ f'(x) \approx \frac{f(x+h) - f(x)}{h} \]
+                </div>
+            </div>
+            <div class="example-steps">
+                <h3>Step-by-Step</h3>
+                <ul class="step-lines">
+                    <li><span class="step-num">1</span> f(x+h) = f(2.1) = (2.1)² = 4.41</li>
+                    <li><span class="step-num">2</span> f(x) = f(2) = (2)² = 4.00</li>
+                    <li><span class="step-num">3</span> Numerator = 4.41 − 4.00 = 0.41</li>
+                    <li><span class="step-num">4</span> Derivative = 0.41 / 0.1 = 4.1</li>
+                </ul>
+                <div class="formula-block" style="margin-top:12px; font-size:11px;">
+                    True derivative: f'(x) = 2x → f'(2) = 4.0 &nbsp;|&nbsp; Error ≈ 0.1
+                </div>
+            </div>
+        </div>
+        <div class="example-answer">
+            <div>
+                <div class="ans-label">Approximate f'(2)</div>
+                <div class="ans-val">4.100000</div>
+            </div>
+            <div class="ans-note">
+                True value: 4.0<br>
+                Absolute error: 0.1
+            </div>
+        </div>
+    </div>
+
+    <!-- ── EXAMPLE 2: BACKWARD ─────────────────────────── -->
+    <div class="section-label"><span>Example 02</span> Backward Difference</div>
+
+    <div class="example-full">
+        <div class="example-full-header">
+            <h2>f(x) = x³ &nbsp;at&nbsp; x = 3,  h = 0.1</h2>
+            <span class="method-pill" style="color:var(--gold); border-color:rgba(201,168,76,0.4); background:var(--gold-dim);">Backward</span>
+        </div>
+        <div class="example-full-body">
+            <div class="example-given">
+                <h3>Given</h3>
+                <table class="given-table">
+                    <tr><td>f(x)</td><td>x³</td></tr>
+                    <tr><td>x</td><td>3</td></tr>
+                    <tr><td>h</td><td>0.1</td></tr>
+                    <tr><td>Formula</td><td>[f(x) − f(x−h)] / h</td></tr>
+                </table>
+                <div class="formula-block" style="margin-top:14px; font-size:11px;">
+                    \[ f'(x) \approx \frac{f(x) - f(x-h)}{h} \]
+                </div>
+            </div>
+            <div class="example-steps">
+                <h3>Step-by-Step</h3>
+                <ul class="step-lines">
+                    <li><span class="step-num">1</span> f(x) = f(3) = 3³ = 27.000</li>
+                    <li><span class="step-num">2</span> f(x−h) = f(2.9) = (2.9)³ = 24.389</li>
+                    <li><span class="step-num">3</span> Numerator = 27.000 − 24.389 = 2.611</li>
+                    <li><span class="step-num">4</span> Derivative = 2.611 / 0.1 = 26.11</li>
+                </ul>
+                <div class="formula-block" style="margin-top:12px; font-size:11px;">
+                    True derivative: f'(x) = 3x² → f'(3) = 27.0 &nbsp;|&nbsp; Error ≈ 0.89
+                </div>
+            </div>
+        </div>
+        <div class="example-answer">
+            <div>
+                <div class="ans-label">Approximate f'(3)</div>
+                <div class="ans-val" style="color:var(--gold)">26.110000</div>
+            </div>
+            <div class="ans-note">
+                True value: 27.0<br>
+                Absolute error: 0.89
+            </div>
+        </div>
+    </div>
+
+    <!-- ── EXAMPLE 3: CENTRAL ──────────────────────────── -->
+    <div class="section-label"><span>Example 03</span> Central Difference</div>
+
+    <div class="example-full">
+        <div class="example-full-header">
+            <h2>f(x) = sin(x) &nbsp;at&nbsp; x = 1,  h = 0.01</h2>
+            <span class="method-pill" style="color:var(--green); border-color:rgba(52,211,153,0.4); background:var(--green-dim);">Central</span>
+        </div>
+        <div class="example-full-body">
+            <div class="example-given">
+                <h3>Given</h3>
+                <table class="given-table">
+                    <tr><td>f(x)</td><td>sin(x)</td></tr>
+                    <tr><td>x</td><td>1</td></tr>
+                    <tr><td>h</td><td>0.01</td></tr>
+                    <tr><td>Formula</td><td>[f(x+h) − f(x−h)] / 2h</td></tr>
+                </table>
+                <div class="formula-block" style="margin-top:14px; font-size:11px;">
+                    \[ f'(x) \approx \frac{f(x+h) - f(x-h)}{2h} \]
+                </div>
+            </div>
+            <div class="example-steps">
+                <h3>Step-by-Step</h3>
+                <ul class="step-lines">
+                    <li><span class="step-num">1</span> f(x+h) = sin(1.01) ≈ 0.846832</li>
+                    <li><span class="step-num">2</span> f(x−h) = sin(0.99) ≈ 0.836026</li>
+                    <li><span class="step-num">3</span> Numerator = 0.846832 − 0.836026 = 0.010806</li>
+                    <li><span class="step-num">4</span> Derivative = 0.010806 / (2 × 0.01) = 0.540302</li>
+                </ul>
+                <div class="formula-block" style="margin-top:12px; font-size:11px;">
+                    True derivative: f'(x) = cos(x) → f'(1) = cos(1) ≈ 0.540302
+                </div>
+            </div>
+        </div>
+        <div class="example-answer">
+            <div>
+                <div class="ans-label">Approximate f'(1)</div>
+                <div class="ans-val" style="color:var(--green)">0.540302</div>
+            </div>
+            <div class="ans-note">
+                True value: 0.540302<br>
+                Error ≈ 0.000000 (excellent!)
+            </div>
+        </div>
+    </div>
+
+    <!-- ── NEXT ───────────────────────────────────────── -->
+    <div class="next-page">
+        <a href="/calculator">Try the Calculator</a>
+    </div>
+
+</div>
+
+<footer>
+    <p>Finite Differences Calculator &nbsp;·&nbsp; Numerical Methods &nbsp;·&nbsp; <span>∂f/∂x</span></p>
+</footer>
+
+</body>
+</html>
