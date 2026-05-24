@@ -1,64 +1,97 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result — Finite Difference Calculator</title>
 
-    <title>Result</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
+<div class="container result-page">
 
-<div class="container">
+    <div class="result-card">
 
-    <div class="result-box">
+        <!-- ── RESULT HEADER ──────────────────────────── -->
+        <div class="result-header">
+            <h1>Calculation Result</h1>
+            {% if not error %}
+                <span class="result-method-badge">{{ method }} Difference</span>
+            {% else %}
+                <span class="result-method-badge" style="color: var(--red); border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.07);">Error</span>
+            {% endif %}
+        </div>
 
-        <h1>Calculation Result</h1>
+        <!-- ── RESULT BODY ────────────────────────────── -->
+        <div class="result-body">
 
-        {% if error %}
+            {% if error %}
 
-            <p>{{ error }}</p>
+            <!-- Error State -->
+            <div class="error-result">
+                <span class="err-icon">⚠</span>
+                <div class="err-text">{{ error }}</div>
+            </div>
 
-        {% else %}
+            {% else %}
 
-            <p><strong>Function:</strong> {{ function }}</p>
+            <!-- Meta Row -->
+            <div class="result-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Function f(x)</div>
+                    <div class="meta-value">{{ function }}</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">x value</div>
+                    <div class="meta-value">{{ x }}</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Step size h</div>
+                    <div class="meta-value">{{ h }}</div>
+                </div>
+            </div>
 
-            <p><strong>x:</strong> {{ x }}</p>
+            <!-- Formula Used -->
+            <div class="result-formula-block">
+                <div class="formula-label">Formula Applied</div>
+                {{ formula }}
+            </div>
 
-            <p><strong>h:</strong> {{ h }}</p>
+            <!-- Step-by-Step Solution -->
+            <div class="steps-section">
+                <h2>Step-by-Step Solution</h2>
+                <ul class="steps-list">
+                    {% for step in steps %}
+                    <li>
+                        <span class="step-num">{{ loop.index }}</span>
+                        {{ step }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
 
-            <p><strong>Method:</strong> {{ method }}</p>
+            <!-- Final Answer -->
+            <div class="answer-block">
+                <div>
+                    <div class="answer-label">Approximate Derivative  f'({{ x }})</div>
+                    <div class="answer-value">{{ derivative }}</div>
+                </div>
+                <div class="answer-icon">∂</div>
+            </div>
 
-            <h2>Formula Used</h2>
+            {% endif %}
 
-            <p>{{ formula }}</p>
+            <a href="/" class="back-link">Back to Calculator</a>
 
-            <h2>Step-by-Step Solution</h2>
-
-            <ul>
-
-                {% for step in steps %}
-
-                    <li>{{ step }}</li>
-
-                {% endfor %}
-
-            </ul>
-
-            <h2>Approximate Derivative</h2>
-
-            <p class="answer">{{ derivative }}</p>
-
-        {% endif %}
-
-        <a href="/">Go Back</a>
-
+        </div>
     </div>
 
 </div>
+
+<footer>
+    <p>Finite Differences Calculator &nbsp;·&nbsp; Numerical Methods &nbsp;·&nbsp; <span>∂f/∂x</span></p>
+</footer>
 
 </body>
 </html>

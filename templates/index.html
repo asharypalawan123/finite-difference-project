@@ -1,436 +1,315 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finite Difference Calculator</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
     <script>
         MathJax = {
             tex: {
                 inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+            options: {
+                skipHtmlTags: ['script','noscript','style','textarea','pre']
             }
         };
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 </head>
 
 <body>
-
 <div class="container">
 
+    <!-- ── HEADER ───────────────────────────────────── -->
     <header>
-
-        <h1>Finite Differences Calculator</h1>
-
+        <div class="header-label">Numerical Analysis</div>
+        <h1><em>Finite Differences</em> Calculator</h1>
         <p class="subtitle">
-            Numerical Differentiation using Forward,
-            Backward, and Central Difference Methods
+            Approximate derivatives numerically using Forward,
+            Backward, and Central Difference Methods.
         </p>
-
     </header>
 
+    <!-- ── WHAT ARE FINITE DIFFERENCES ─────────────── -->
+    <div class="section-label"><span>01</span> Overview</div>
 
-
-        <section class="discussion-box">
-
-    <h1>What are Finite Difference Methods?</h1>
-
-    <p>
-        <strong>Finite Difference Methods</strong> are numerical
-        techniques used to approximate derivatives of functions
-        using nearby function values instead of analytical
-        differentiation.
-    </p>
-
-    <p>
-        In calculus, the derivative of a function represents the
-        instantaneous rate of change of a quantity with respect
-        to a variable. While derivatives can often be computed
-        symbolically using differentiation rules, there are many
-        practical situations where obtaining the exact derivative
-        is difficult, expensive, or impossible.
-    </p>
-
-    <p>
-        Finite difference approximations solve this problem by
-        replacing the exact derivative with an approximation
-        computed from discrete sample points.
-    </p>
-
-    <p>
-        These methods are widely used in:
-    </p>
-
-    <ul>
-        <li>Scientific Computing</li>
-        <li>Engineering Simulations</li>
-        <li>Machine Learning Optimization</li>
-        <li>Physics Modeling</li>
-        <li>Numerical Analysis</li>
-        <li>Computer Graphics</li>
-    </ul>
-
-
-    <h2>Forward Difference Method</h2>
-
-    <p>
-        The <strong>Forward Difference Method</strong> estimates
-        the derivative of a function using the function value at
-        the current point and the next nearby point.
-    </p>
-
-    <p>
-        It is derived from the definition of the derivative:
-    </p>
-
-    <p>
-    \[
-    f'(x)=\lim_{h \to 0}\frac{f(x+h)-f(x)}{h}
-    \]
-    </p>
-
-    <p>
-        By choosing a very small value of \(h\), the derivative
-        can be approximated numerically as:
-    </p>
-
-    <p>
-    \[
-    f'(x)\approx\frac{f(x+h)-f(x)}{h}
-    \]
-    </p>
-
-    <p>
-        This method is simple and computationally efficient,
-        making it useful for fast approximations.
-    </p>
-
-    <p>
-        However, because it only uses information from the
-        forward direction, it is generally less accurate than
-        the central difference method.
-    </p>
-
-
-    <h2>Backward Difference Method</h2>
-
-    <p>
-        The <strong>Backward Difference Method</strong> estimates
-        the derivative using the current point and the previous
-        nearby point.
-    </p>
-
-    <p>
-        The formula is:
-    </p>
-
-    <p>
-    \[
-    f'(x)\approx\frac{f(x)-f(x-h)}{h}
-    \]
-    </p>
-
-    <p>
-        This method is especially useful when future data points
-        are unavailable, such as in real-time systems or
-        sequential measurements.
-    </p>
-
-    <p>
-        Similar to the forward difference method, its accuracy
-        depends on the step size \(h\). A very large step size
-        reduces accuracy, while an extremely small step size may
-        introduce rounding errors due to floating-point
-        computations.
-    </p>
-
-
-    <h2>Central Difference Method</h2>
-
-    <p>
-        The <strong>Central Difference Method</strong> uses both
-        forward and backward neighboring points around the target
-        value.
-    </p>
-
-    <p>
-        The approximation formula is:
-    </p>
-
-    <p>
-    \[
-    f'(x)\approx\frac{f(x+h)-f(x-h)}{2h}
-    \]
-    </p>
-
-    <p>
-        Among the three finite difference methods, the central
-        difference method generally provides the highest accuracy
-        because it considers information from both directions.
-    </p>
-
-    <p>
-        The truncation error of the central difference method is
-        smaller compared to forward and backward difference
-        methods, making it a preferred choice in numerical
-        computations.
-    </p>
-
-
-    <h2>Importance of Step Size \(h\)</h2>
-
-    <p>
-        The value of \(h\) is called the
-        <strong>step size</strong>.
-    </p>
-
-    <p>
-        Choosing the proper step size is important because:
-    </p>
-
-    <ul>
-        <li>
-            Large values of \(h\) may produce poor approximations
-        </li>
-
-        <li>
-            Extremely small values of \(h\) may lead to
-            floating-point rounding errors
-        </li>
-
-        <li>
-            Moderate values usually provide the best numerical
-            stability
-        </li>
-    </ul>
-
-
-    <h2>Error Analysis</h2>
-
-    <p>
-        Finite difference methods are approximations, meaning
-        they contain numerical errors called
-        <strong>truncation errors</strong>.
-    </p>
-
-    <p>
-        The forward and backward difference methods typically
-        have first-order accuracy:
-    </p>
-
-    <p>
-    \[
-    O(h)
-    \]
-    </p>
-
-    <p>
-        while the central difference method has second-order
-        accuracy:
-    </p>
-
-    <p>
-    \[
-    O(h^2)
-    \]
-    </p>
-
-    <p>
-        This means the central difference method usually produces
-        more accurate derivative approximations for the same
-        step size.
-    </p>
-
-
-    <h2>Advantages</h2>
-
-    <ul>
-        <li>Simple and easy to implement</li>
-
-        <li>
-            Useful when analytical derivatives are unavailable
-        </li>
-
-        <li>
-            Applicable to discrete experimental data
-        </li>
-
-        <li>
-            Computationally efficient
-        </li>
-
-        <li>
-            Widely used in engineering and simulations
-        </li>
-    </ul>
-
-
-    <h2>Disadvantages</h2>
-
-    <ul>
-        <li>
-            Produces approximation errors
-        </li>
-
-        <li>
-            Sensitive to the choice of step size
-        </li>
-
-        <li>
-            Very small step sizes may introduce rounding errors
-        </li>
-
-        <li>
-            Less accurate than symbolic differentiation
-        </li>
-    </ul>
-
-    </section>
-
-
-    <section class="example-box">
-
-        <h2>Worked Example 1</h2>
-
-        <p><strong>Given:</strong></p>
-
+    <div class="intro-card">
         <p>
-        \[
-        f(x)=x^2
-        \]
+            <strong>Finite Difference Methods</strong> are numerical techniques used to approximate
+            derivatives of functions using nearby discrete function values — instead of
+            analytical differentiation. They are fundamental in scientific computing
+            when the exact derivative is difficult, costly, or impossible to obtain.
+        </p>
+        <p>
+            These methods work by replacing the limiting process of calculus with
+            a finite step size \(h\), yielding computable approximations that
+            converge to the true derivative as \(h \to 0\).
         </p>
 
-        <p>
-        \[
-        x=2
-        \]
+        <div class="uses-grid">
+            <div class="use-item">Scientific Computing</div>
+            <div class="use-item">Engineering Simulations</div>
+            <div class="use-item">ML Optimization</div>
+            <div class="use-item">Physics Modeling</div>
+            <div class="use-item">Numerical Analysis</div>
+            <div class="use-item">Computer Graphics</div>
+        </div>
+    </div>
+
+    <!-- ── THREE METHODS ────────────────────────────── -->
+    <div class="section-label"><span>02</span> Methods</div>
+
+    <div class="methods-grid">
+
+        <!-- FORWARD -->
+        <div class="method-card forward">
+            <div class="method-symbol">f&thinsp;'₊</div>
+            <h2>Forward Difference</h2>
+            <p>
+                Estimates the derivative using the current point and the
+                <em>next</em> nearby point. Derived directly from the limit definition
+                of the derivative.
+            </p>
+            <div class="formula-block">
+                \[ f'(x) \approx \frac{f(x+h) - f(x)}{h} \]
+            </div>
+            <p>
+                Simple and computationally efficient. Ideal for fast approximations
+                where high accuracy is not critical.
+            </p>
+            <span class="accuracy-badge">O(h) — first order</span>
+        </div>
+
+        <!-- BACKWARD -->
+        <div class="method-card backward">
+            <div class="method-symbol">f&thinsp;'₋</div>
+            <h2>Backward Difference</h2>
+            <p>
+                Uses the current point and the <em>previous</em> nearby point.
+                Especially useful in real-time systems where future data is
+                unavailable.
+            </p>
+            <div class="formula-block">
+                \[ f'(x) \approx \frac{f(x) - f(x-h)}{h} \]
+            </div>
+            <p>
+                Shares the same accuracy order as forward difference.
+                Sensitivity to step size applies equally.
+            </p>
+            <span class="accuracy-badge">O(h) — first order</span>
+        </div>
+
+        <!-- CENTRAL -->
+        <div class="method-card central">
+            <div class="method-symbol">f&thinsp;'₀</div>
+            <h2>Central Difference</h2>
+            <p>
+                Uses points on <em>both sides</em> of the target value.
+                The truncation error is smaller, making it the most
+                accurate of the three methods.
+            </p>
+            <div class="formula-block">
+                \[ f'(x) \approx \frac{f(x+h) - f(x-h)}{2h} \]
+            </div>
+            <p>
+                Preferred choice for numerical computations where
+                precision matters.
+            </p>
+            <span class="accuracy-badge">O(h²) — second order</span>
+        </div>
+
+    </div>
+
+    <!-- ── STEP SIZE + ERROR ─────────────────────────── -->
+    <div class="section-label"><span>03</span> Step Size &amp; Error Analysis</div>
+
+    <div class="detail-grid">
+
+        <div class="detail-card">
+            <h2><span class="icon">h</span> Importance of Step Size</h2>
+            <p>
+                The step size \(h\) critically controls the trade-off
+                between truncation error and floating-point rounding error.
+            </p>
+            <ul class="warning-list">
+                <li class="bad">
+                    <span class="tag">LARGE h</span>
+                    Poor approximation — truncation error dominates.
+                </li>
+                <li class="bad">
+                    <span class="tag">TINY h</span>
+                    Floating-point rounding errors accumulate dangerously.
+                </li>
+                <li class="ok">
+                    <span class="tag">MODERATE h</span>
+                    Best numerical stability — balances both error sources.
+                </li>
+            </ul>
+        </div>
+
+        <div class="detail-card">
+            <h2><span class="icon">ε</span> Truncation Error Orders</h2>
+            <p>
+                Each method has a characteristic truncation error order
+                that determines how rapidly the approximation improves
+                as \(h\) decreases.
+            </p>
+            <div class="error-compare">
+                <div class="error-row">
+                    <span class="method-name">Forward Difference</span>
+                    <span class="order first">\(O(h)\)</span>
+                </div>
+                <div class="error-row">
+                    <span class="method-name">Backward Difference</span>
+                    <span class="order first">\(O(h)\)</span>
+                </div>
+                <div class="error-row">
+                    <span class="method-name">Central Difference</span>
+                    <span class="order second">\(O(h^2)\)</span>
+                </div>
+            </div>
+            <p style="margin-top:14px; font-size:12px;">
+                Central difference converges <strong>quadratically</strong> — halving
+                \(h\) reduces its error by a factor of 4.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- ── PROS & CONS ───────────────────────────────── -->
+    <div class="section-label"><span>04</span> Advantages &amp; Limitations</div>
+
+    <div class="pros-cons-grid">
+        <div class="pros-card">
+            <h3>Advantages</h3>
+            <ul class="check-list">
+                <li>Simple and easy to implement</li>
+                <li>Useful when analytical derivatives are unavailable</li>
+                <li>Applicable to discrete experimental data</li>
+                <li>Computationally very efficient</li>
+                <li>Widely used in engineering and simulations</li>
+            </ul>
+        </div>
+        <div class="cons-card">
+            <h3>Limitations</h3>
+            <ul class="check-list">
+                <li>Produces approximation (truncation) errors</li>
+                <li>Highly sensitive to choice of step size</li>
+                <li>Very small \(h\) introduces rounding errors</li>
+                <li>Less accurate than symbolic differentiation</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ── WORKED EXAMPLES ───────────────────────────── -->
+    <div class="section-label"><span>05</span> Worked Examples</div>
+
+    <div class="examples-grid">
+
+        <div class="example-card" data-num="1">
+            <h2>Example 01 — Forward</h2>
+            <table class="given-table">
+                <tr><td>f(x)</td><td>x²</td></tr>
+                <tr><td>x</td><td>2</td></tr>
+                <tr><td>h</td><td>0.1</td></tr>
+                <tr><td>Method</td><td>Forward Difference</td></tr>
+            </table>
+            <div class="formula-block" style="font-size:11px; margin-bottom:10px;">
+                f'(2) ≈ [f(2.1) − f(2)] / 0.1 = [4.41 − 4] / 0.1
+            </div>
+            <div class="result-answer">
+                <span class="label">Approximate f'(2)</span>
+                <span class="value">4.100000</span>
+            </div>
+        </div>
+
+        <div class="example-card" data-num="2">
+            <h2>Example 02 — Central</h2>
+            <table class="given-table">
+                <tr><td>f(x)</td><td>sin(x)</td></tr>
+                <tr><td>x</td><td>1</td></tr>
+                <tr><td>h</td><td>0.01</td></tr>
+                <tr><td>Method</td><td>Central Difference</td></tr>
+            </table>
+            <div class="formula-block" style="font-size:11px; margin-bottom:10px;">
+                f'(1) ≈ [sin(1.01) − sin(0.99)] / (2 × 0.01)
+            </div>
+            <div class="result-answer">
+                <span class="label">Approximate f'(1)</span>
+                <span class="value">0.540302</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ── CALCULATOR ────────────────────────────────── -->
+    <div class="section-label"><span>06</span> Interactive Calculator</div>
+
+    <div class="calculator-card">
+        <h2>Compute the Derivative</h2>
+        <p class="calc-subtitle">
+            Enter your function, evaluation point, step size, and choose a method.
         </p>
-
-        <p>
-        \[
-        h=0.1
-        \]
-        </p>
-
-        <p>
-        \[
-        f'(x) \approx \frac{f(x+h)-f(x)}{h}
-        \]
-        </p>
-
-        <p>
-        \[
-        f'(2) \approx \frac{4.41-4}{0.1}
-        \]
-        </p>
-
-        <p>
-        \[
-        f'(2) \approx 4.1
-        \]
-        </p>
-
-    </section>
-
-
-    <section class="example-box">
-
-        <h2>Worked Example 2</h2>
-
-        <p><strong>Given:</strong></p>
-
-        <p>
-        \[
-        f(x)=\sin(x)
-        \]
-        </p>
-
-        <p>
-        \[
-        x=1
-        \]
-        </p>
-
-        <p>
-        \[
-        h=0.01
-        \]
-        </p>
-
-        <p>
-        \[
-        f'(x) \approx \frac{f(x+h)-f(x-h)}{2h}
-        \]
-        </p>
-
-        <p>
-        \[
-        f'(1) \approx 0.54
-        \]
-        </p>
-
-    </section>
-
-
-    <section class="calculator-box">
-
-        <h2>Interactive Calculator</h2>
 
         <form action="/calculate" method="POST">
+            <div class="form-grid">
 
-            <label>Function f(x)</label>
+                <div class="form-group full-width">
+                    <label>Function f(x)</label>
+                    <input
+                        type="text"
+                        name="function"
+                        placeholder="e.g.  x**2  or  sin(x)  or  exp(x)"
+                        required>
+                </div>
 
-            <input type="text"
-                   name="function"
-                   placeholder="Example: x**2"
-                   required>
+                <div class="form-group">
+                    <label>Value of x</label>
+                    <input
+                        type="number"
+                        step="any"
+                        name="x"
+                        placeholder="e.g.  2"
+                        required>
+                </div>
 
-            <label>Value of x</label>
+                <div class="form-group">
+                    <label>Step Size h</label>
+                    <input
+                        type="number"
+                        step="any"
+                        name="h"
+                        placeholder="e.g.  0.01"
+                        required>
+                </div>
 
-            <input type="number"
-                   step="any"
-                   name="x"
-                   required>
+                <div class="form-group full-width">
+                    <label>Differentiation Method</label>
+                    <div class="select-wrapper">
+                        <select name="method">
+                            <option value="forward">Forward Difference  —  O(h)</option>
+                            <option value="backward">Backward Difference  —  O(h)</option>
+                            <option value="central">Central Difference  —  O(h²)</option>
+                        </select>
+                    </div>
+                </div>
 
-            <label>Step Size h</label>
+                <button type="submit" class="submit-btn">
+                    Calculate Derivative →
+                </button>
 
-            <input type="number"
-                   step="any"
-                   name="h"
-                   required>
-
-            <label>Method</label>
-
-            <select name="method">
-
-                <option value="forward">
-                    Forward Difference
-                </option>
-
-                <option value="backward">
-                    Backward Difference
-                </option>
-
-                <option value="central">
-                    Central Difference
-                </option>
-
-            </select>
-
-            <button type="submit">
-                Calculate Derivative
-            </button>
-
+            </div>
         </form>
-
-    </section>
+    </div>
 
 </div>
+
+<footer>
+    <p>Finite Differences Calculator &nbsp;·&nbsp; Numerical Methods &nbsp;·&nbsp; <span>∂f/∂x</span></p>
+</footer>
 
 </body>
 </html>
