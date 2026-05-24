@@ -35,39 +35,262 @@
     </header>
 
 
-    <section class="discussion-box">
 
-        <h2>Mathematical Discussion</h2>
+        <section class="discussion-box">
 
-        <p>
-            Finite difference methods are numerical techniques
-            used to approximate derivatives using nearby
-            function values.
-        </p>
+    <h2>01 — Mathematical Discussion</h2>
 
-        <h3>Forward Difference</h3>
+    <h1>What are Finite Difference Methods?</h1>
 
-        <p>
-        \[
-        f'(x) \approx \frac{f(x+h)-f(x)}{h}
-        \]
-        </p>
+    <p>
+        <strong>Finite Difference Methods</strong> are numerical
+        techniques used to approximate derivatives of functions
+        using nearby function values instead of analytical
+        differentiation.
+    </p>
 
-        <h3>Backward Difference</h3>
+    <p>
+        In calculus, the derivative of a function represents the
+        instantaneous rate of change of a quantity with respect
+        to a variable. While derivatives can often be computed
+        symbolically using differentiation rules, there are many
+        practical situations where obtaining the exact derivative
+        is difficult, expensive, or impossible.
+    </p>
 
-        <p>
-        \[
-        f'(x) \approx \frac{f(x)-f(x-h)}{h}
-        \]
-        </p>
+    <p>
+        Finite difference approximations solve this problem by
+        replacing the exact derivative with an approximation
+        computed from discrete sample points.
+    </p>
 
-        <h3>Central Difference</h3>
+    <p>
+        These methods are widely used in:
+    </p>
 
-        <p>
-        \[
-        f'(x) \approx \frac{f(x+h)-f(x-h)}{2h}
-        \]
-        </p>
+    <ul>
+        <li>Scientific Computing</li>
+        <li>Engineering Simulations</li>
+        <li>Machine Learning Optimization</li>
+        <li>Physics Modeling</li>
+        <li>Numerical Analysis</li>
+        <li>Computer Graphics</li>
+    </ul>
+
+
+    <h2>Forward Difference Method</h2>
+
+    <p>
+        The <strong>Forward Difference Method</strong> estimates
+        the derivative of a function using the function value at
+        the current point and the next nearby point.
+    </p>
+
+    <p>
+        It is derived from the definition of the derivative:
+    </p>
+
+    <p>
+    \[
+    f'(x)=\lim_{h \to 0}\frac{f(x+h)-f(x)}{h}
+    \]
+    </p>
+
+    <p>
+        By choosing a very small value of \(h\), the derivative
+        can be approximated numerically as:
+    </p>
+
+    <p>
+    \[
+    f'(x)\approx\frac{f(x+h)-f(x)}{h}
+    \]
+    </p>
+
+    <p>
+        This method is simple and computationally efficient,
+        making it useful for fast approximations.
+    </p>
+
+    <p>
+        However, because it only uses information from the
+        forward direction, it is generally less accurate than
+        the central difference method.
+    </p>
+
+
+    <h2>Backward Difference Method</h2>
+
+    <p>
+        The <strong>Backward Difference Method</strong> estimates
+        the derivative using the current point and the previous
+        nearby point.
+    </p>
+
+    <p>
+        The formula is:
+    </p>
+
+    <p>
+    \[
+    f'(x)\approx\frac{f(x)-f(x-h)}{h}
+    \]
+    </p>
+
+    <p>
+        This method is especially useful when future data points
+        are unavailable, such as in real-time systems or
+        sequential measurements.
+    </p>
+
+    <p>
+        Similar to the forward difference method, its accuracy
+        depends on the step size \(h\). A very large step size
+        reduces accuracy, while an extremely small step size may
+        introduce rounding errors due to floating-point
+        computations.
+    </p>
+
+
+    <h2>Central Difference Method</h2>
+
+    <p>
+        The <strong>Central Difference Method</strong> uses both
+        forward and backward neighboring points around the target
+        value.
+    </p>
+
+    <p>
+        The approximation formula is:
+    </p>
+
+    <p>
+    \[
+    f'(x)\approx\frac{f(x+h)-f(x-h)}{2h}
+    \]
+    </p>
+
+    <p>
+        Among the three finite difference methods, the central
+        difference method generally provides the highest accuracy
+        because it considers information from both directions.
+    </p>
+
+    <p>
+        The truncation error of the central difference method is
+        smaller compared to forward and backward difference
+        methods, making it a preferred choice in numerical
+        computations.
+    </p>
+
+
+    <h2>Importance of Step Size \(h\)</h2>
+
+    <p>
+        The value of \(h\) is called the
+        <strong>step size</strong>.
+    </p>
+
+    <p>
+        Choosing the proper step size is important because:
+    </p>
+
+    <ul>
+        <li>
+            Large values of \(h\) may produce poor approximations
+        </li>
+
+        <li>
+            Extremely small values of \(h\) may lead to
+            floating-point rounding errors
+        </li>
+
+        <li>
+            Moderate values usually provide the best numerical
+            stability
+        </li>
+    </ul>
+
+
+    <h2>Error Analysis</h2>
+
+    <p>
+        Finite difference methods are approximations, meaning
+        they contain numerical errors called
+        <strong>truncation errors</strong>.
+    </p>
+
+    <p>
+        The forward and backward difference methods typically
+        have first-order accuracy:
+    </p>
+
+    <p>
+    \[
+    O(h)
+    \]
+    </p>
+
+    <p>
+        while the central difference method has second-order
+        accuracy:
+    </p>
+
+    <p>
+    \[
+    O(h^2)
+    \]
+    </p>
+
+    <p>
+        This means the central difference method usually produces
+        more accurate derivative approximations for the same
+        step size.
+    </p>
+
+
+    <h2>Advantages</h2>
+
+    <ul>
+        <li>Simple and easy to implement</li>
+
+        <li>
+            Useful when analytical derivatives are unavailable
+        </li>
+
+        <li>
+            Applicable to discrete experimental data
+        </li>
+
+        <li>
+            Computationally efficient
+        </li>
+
+        <li>
+            Widely used in engineering and simulations
+        </li>
+    </ul>
+
+
+    <h2>Disadvantages</h2>
+
+    <ul>
+        <li>
+            Produces approximation errors
+        </li>
+
+        <li>
+            Sensitive to the choice of step size
+        </li>
+
+        <li>
+            Very small step sizes may introduce rounding errors
+        </li>
+
+        <li>
+            Less accurate than symbolic differentiation
+        </li>
+    </ul>
 
     </section>
 
