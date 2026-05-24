@@ -7,6 +7,7 @@
     padding: 0;
 }
 
+/* ─── DARK MODE (default) ───────────────────────── */
 :root {
     --bg-base:        #080b12;
     --bg-surface:     #0d1120;
@@ -44,6 +45,44 @@
     --radius-xl:      22px;
 }
 
+/* ─── LIGHT MODE ────────────────────────────────── */
+body.light {
+    --bg-base:        #f4f6fb;
+    --bg-surface:     #edf0f7;
+    --bg-card:        #ffffff;
+    --bg-card-hover:  #f0f3fa;
+    --bg-input:       #eef1f8;
+
+    --border:         rgba(60, 100, 200, 0.12);
+    --border-bright:  rgba(60, 100, 200, 0.26);
+    --border-accent:  rgba(60, 100, 200, 0.50);
+
+    --accent:         #2563eb;
+    --accent-dim:     #1d4ed8;
+    --accent-glow:    rgba(37, 99, 235, 0.14);
+    --accent-subtle:  rgba(37, 99, 235, 0.07);
+
+    --gold:           #92650a;
+    --gold-dim:       rgba(146, 101, 10, 0.10);
+    --green:          #059669;
+    --green-dim:      rgba(5, 150, 105, 0.10);
+    --red:            #dc2626;
+
+    --text-primary:   #0f172a;
+    --text-secondary: #475569;
+    --text-muted:     #94a3b8;
+    --text-accent:    #1d4ed8;
+}
+
+/* ─── THEME TRANSITION ──────────────────────────── */
+body, body * {
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -61,8 +100,8 @@ body::before {
     position: fixed;
     inset: 0;
     background-image:
-        linear-gradient(rgba(79, 140, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(79, 140, 255, 0.03) 1px, transparent 1px);
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
     background-size: 48px 48px;
     pointer-events: none;
     z-index: 0;
@@ -76,7 +115,7 @@ body::after {
     transform: translateX(-50%);
     width: 80vw;
     height: 60vh;
-    background: radial-gradient(ellipse at center, rgba(79, 140, 255, 0.07) 0%, transparent 70%);
+    background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
 }
@@ -984,6 +1023,40 @@ footer span { color: var(--accent); }
 .nav-links .nav-num {
     font-size: 9px;
     opacity: 0.5;
+}
+
+/* ─── THEME TOGGLE BUTTON ───────────────────────── */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--accent-subtle);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 5px 13px 5px 10px;
+    cursor: pointer;
+    transition: color 0.18s, border-color 0.18s, background 0.18s;
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.04em;
+}
+
+.theme-toggle:hover {
+    color: var(--accent);
+    border-color: var(--border-accent);
+}
+
+.theme-toggle .toggle-icon {
+    font-size: 14px;
+    line-height: 1;
+    transition: transform 0.35s ease;
+}
+
+body.light .theme-toggle .toggle-icon {
+    transform: rotate(180deg);
 }
 
 /* ─── PAGE HERO (smaller than full header) ───────── */

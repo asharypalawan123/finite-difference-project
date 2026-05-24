@@ -15,10 +15,37 @@
         <ul class="nav-links">
             <li><a href="/theory"><span class="nav-num">01</span> Theory</a></li>
             <li><a href="/examples"><span class="nav-num">02</span> Examples</a></li>
-            <li><a href="/calculator" class="active"><span class="nav-num">03</span> Calculator</a></li>
+            <li><a href="/calculator" class="active" class="active"><span class="nav-num">03</span> Calculator</a></li>
         </ul>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+            <span class="toggle-icon">&#9788;&#65038;</span>
+            <span class="toggle-label">Light</span>
+        </button>
     </div>
 </nav>
+
+<!-- ── THEME SCRIPT ──────────────────────────────────── -->
+<script>
+(function() {
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light');
+    }
+})();
+
+function toggleTheme() {
+    const isLight = document.body.classList.toggle('light');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    const lbl = document.querySelector('.toggle-label');
+    if (lbl) lbl.textContent = isLight ? 'Dark' : 'Light';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const lbl = document.querySelector('.toggle-label');
+    if (lbl && document.body.classList.contains('light')) {
+        lbl.textContent = 'Dark';
+    }
+});
+</script>
 
 <div class="container">
 
